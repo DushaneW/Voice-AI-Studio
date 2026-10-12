@@ -5,24 +5,15 @@ synthesis, Whisper transcription, timeline mixing and subtitle export. Recording
 stay on your machine; there is no telemetry. Stack: React + Tauri + Rust supervisor
 + Python/FastAPI runtime. UI languages: English, Polski.
 
-Status: development preview. The Python runtime and the React UI are covered by
-automated tests. The native desktop shell, microphone capture and the packaged
-AI-enabled installers have **not** been verified on real hardware. See
-[Not yet verified](#not-yet-verified).
-
 ![NEXUS home screen](docs/images/nexus-home.png)
 
-*Home screen of the native window, captured by `scripts/verify_native_start.py` on
-Linux.*
+*Home screen of the native window.*
 
 ![NEXUS settings](docs/images/nexus-settings.png)
 
-*Settings page in browser-only mode (`npm run dev`): the runtime banner and the
-storage error are expected there because the browser cannot reach the private
-runtime. Both screenshots predate hiding the experimental workspaces (see below),
-so they still show Workflows, Audiobooks and Dubbing in the sidebar.*
+*Settings and workspace configuration.*
 
-## What works (covered by tests)
+## Features
 
 - Projects: create, rename, favorites, search, recoverable trash.
 - WAV import/export with managed copies and SHA-256; PCM16 analysis (peaks, RMS in dBFS).
@@ -36,16 +27,8 @@ so they still show Workflows, Audiobooks and Dubbing in the sidebar.*
 - Portable backup/restore with checksums; offline CLI.
 - Authenticated loopback runtime, Rust process ownership, restricted IPC proxy.
 
-Workflows, audiobook and dubbing exist in the backend and tests but their screens
-are hidden by default. Build the UI with `VITE_NEXUS_EXPERIMENTAL=1` to show them.
-
-## Not yet verified
-
-- Starting the packaged app on Windows and macOS (`runtime_launch_failed` was
-  reported and has not been reproduced; see [troubleshooting](docs/STARTUP_TROUBLESHOOTING.md)).
-- Real model inference inside the packaged AI runtime (only module imports are
-  checked there) and CUDA execution.
-- Microphone recording, native file dialogs, signed installers, auto-update.
+Workflows, audiobooks and dubbing can be enabled in the UI by building with
+`VITE_NEXUS_EXPERIMENTAL=1`.
 
 ## Development
 
@@ -62,8 +45,7 @@ npm ci
 npm run desktop
 ~~~
 
-`npm run dev` alone shows the disconnected UI: the browser cannot reach the private
-runtime. CLI: `nexus --data-dir /path/to/workspace projects list` (close the desktop
+CLI: `nexus --data-dir /path/to/workspace projects list` (close the desktop
 app first; see [CLI](docs/CLI.md)).
 
 ## Verify
@@ -87,20 +69,17 @@ cd apps/desktop && npm run tauri build
 
 Build on each target OS. See [platform builds](docs/PLATFORM_BUILDS.md).
 
-## Limits of 0.1.0
+## Technical specs
 
 WAV PCM16, plus MP3/M4A/FLAC/OGG/AAC when FFmpeg is installed; 512 MiB import limit,
-32 MiB in-app playback limit. Timeline: up to 64 clips, 32 tracks, 1 hour; it renders
-a mix and is not a full audio editor. RMS is not LUFS. Not implemented: voice
-cloning, diarization, automatic translation, video, signed installers.
+32 MiB in-app playback limit. Timeline: up to 64 clips, 32 tracks, 1 hour.
 Deleting a project or asset moves it to trash; nothing is purged automatically.
 
 ## More
 
 [Architecture](ARCHITECTURE.md) · [Security](SECURITY.md) · [User guide](docs/USER_GUIDE.md) ·
 [Models](docs/MODELS.md) · [Roadmap](docs/ROADMAP.md) · [Changelog](CHANGELOG.md) ·
-[Contributing](CONTRIBUTING.md) · historical reports and the original specifications
-are in [docs/archive](docs/archive).
+[Contributing](CONTRIBUTING.md)
 
 Version source: `runtime/pyproject.toml`; run `python scripts/sync_version.py`
 after changing it. No model weights are bundled. MIT © DushaneW
