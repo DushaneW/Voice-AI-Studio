@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "nexus-runtime"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["psutil>=6,<8", "numpy>=1.26,<3", "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.20"]
+[project.scripts]
+nexus = "nexus_runtime.cli:main"
+[project.optional-dependencies]
+ai = ["faster-whisper==1.2.1", "av==18.0.0", "kokoro-onnx==0.6.1"]
+test = ["pytest>=8,<9", "httpx>=0.27,<1"]
+[tool.setuptools.packages.find]
+include = ["nexus_runtime*"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+[tool.setuptools.package-data]
+nexus_runtime = ["catalog.json"]

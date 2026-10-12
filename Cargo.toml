@@ -1,0 +1,4 @@
+[workspace]
+members = ["crates/nexus-supervisor", "apps/desktop/src-tauri"]
+default-members = ["crates/nexus-supervisor"]
+resolver = "2"

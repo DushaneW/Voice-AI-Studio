@@ -1,0 +1,1 @@
+{"main":{"identifier":"main","description":"Local main window only; native operations are mediated by Rust commands.","local":true,"windows":["main"],"permissions":["core:default","core:window:allow-destroy"]}}
