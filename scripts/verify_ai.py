@@ -15,14 +15,16 @@ from nexus_runtime.api import create_app
 from nexus_runtime.media import probe
 from nexus_runtime.models import CATALOG
 
+# Only the models this smoke test runs; larger catalog entries are opt-in downloads.
+SMOKE_MODELS = {"kokoro-v1", "whisper-tiny"}
 root = Path(sys.argv[1]).resolve()
 report = {
     "test": "real CPU speech → transcription → persisted edit",
-    "models": {m["id"]: m["revision"] for m in CATALOG},
+    "models": {m["id"]: m["revision"] for m in CATALOG if m["id"] in SMOKE_MODELS},
 }
 with TestClient(create_app(root, "smoke-test-token-" + "x" * 40)) as client:
     client.headers["Authorization"] = "Bearer " + "smoke-test-token-" + "x" * 40
-    for model in CATALOG:
+    for model in (m for m in CATALOG if m["id"] in SMOKE_MODELS):
         client.post("/v1/models/" + model["id"] + "/install").raise_for_status()
         deadline = time.monotonic() + 180
         while time.monotonic() < deadline:

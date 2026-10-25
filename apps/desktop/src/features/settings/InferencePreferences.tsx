@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { request } from "../../services/runtime";
 import type { Settings } from "../../types/domain";
 import type { Model } from "../models/Models";
+import { asrHint, formatModelSize } from "../models/asr";
 import type { Voice } from "../speech/Speech";
 import type { Key } from "../../app/i18n";
 
@@ -56,7 +57,7 @@ export function InferencePreferences({
             onChange({ ...value, transcription_model: e.target.value || null })
           }
         >
-          <option value="">{t("catalogDefault")}</option>
+          <option value="">{t("asrAutomatic")}</option>
           {value.transcription_model &&
             !models.some((m) => m.id === value.transcription_model) && (
               <option value={value.transcription_model}>
@@ -65,11 +66,14 @@ export function InferencePreferences({
             )}
           {models.map((m) => (
             <option key={m.id} value={m.id}>
-              {m.name}
+              {m.name} · {formatModelSize(m.size)}
             </option>
           ))}
         </select>
       </label>
+      {asrHint(value.transcription_model ?? undefined) && (
+        <p>{t(asrHint(value.transcription_model ?? undefined)!)}</p>
+      )}
       <label>
         {t("defaultAsrLanguage")}
         <input

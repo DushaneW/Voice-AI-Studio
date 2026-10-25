@@ -2,7 +2,15 @@
 
 ## Unreleased
 
+### Added
+- Model catalog: Whisper Base, Small and Medium (faster-whisper, pinned Hugging Face
+  revisions, SHA-256 verified), next to Whisper Tiny.
+- Transcription and settings model pickers show download size, install state and a
+  speed/accuracy hint. Without a saved preference the first installed Whisper model
+  is selected instead of the first catalog entry.
+
 ### Changed
+- `scripts/verify_ai.py` installs only the models it exercises (Kokoro, Whisper Tiny).
 - Runtime: expected failures use `DomainError` (stable code, HTTP 409) and
   `NotFound` (404) from `nexus_runtime/errors.py`. A plain `ValueError` is now a
   defect: HTTP 500 `internal_error`, logged by exception class only. Previously
