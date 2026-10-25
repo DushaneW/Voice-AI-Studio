@@ -32,6 +32,16 @@ def test_parse_srt_and_vtt_preserves_times_and_text():
             1,
         ),
     ],
+    # Explicit ids: the oversized payload would otherwise become a test id longer
+    # than Windows allows in the PYTEST_CURRENT_TEST environment variable.
+    ids=[
+        "empty",
+        "cue-past-duration",
+        "oversized",
+        "cue-past-limit",
+        "end-before-start",
+        "vtt-style-block",
+    ],
 )
 def test_invalid_input_is_rejected(text, format, duration):
     with pytest.raises(ValueError):
