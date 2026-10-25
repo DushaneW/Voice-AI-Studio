@@ -447,7 +447,7 @@ export const pl: Record<Key, string> = {
   automatic: "Automatycznie",
   transcribe: "Transkrybuj",
   installAsrModel:
-    "Zainstaluj Whisper Tiny w obszarze Modele, aby transkrybować audio.",
+    "Zainstaluj model Whisper w obszarze Modele, aby transkrybować audio.",
   transcript: "Transkrypcja",
   segment: "Fragment",
   noTranscript: "Brak transkrypcji tego nagrania",
@@ -615,4 +615,14 @@ export const pl: Record<Key, string> = {
   noResult: "Brak wyniku analizy",
   clear: "Wyczyść",
   project: "Projekt",
+  modelNotInstalled: "Niezainstalowany",
+  asrAutomatic: "Automatycznie (pierwszy zainstalowany model)",
+  asrHintTiny:
+    "Najszybszy i najmniejszy. Dobry do szkiców; słabo radzi sobie z akcentami i mową inną niż angielska.",
+  asrHintBase:
+    "Szybki, wyraźnie dokładniejszy od Tiny. Działa sprawnie na większości procesorów.",
+  asrHintSmall:
+    "Równowaga dokładności i szybkości. Zalecany dla języka polskiego i innych języków.",
+  asrHintMedium:
+    "Najdokładniejszy w katalogu. Wolny na CPU; zalecana karta graficzna z CUDA.",
 };

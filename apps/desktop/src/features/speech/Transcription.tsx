@@ -10,6 +10,7 @@ import { request, audioUrl, exportTranscript } from "../../services/runtime";
 import type { Asset, Settings } from "../../types/domain";
 import type { Key } from "../../app/i18n";
 import type { Model } from "../models/Models";
+import { asrHint, formatModelSize, pickAsrModel } from "../models/asr";
 interface Segment {
   speaker?: string | null;
   start: number;
@@ -53,7 +54,8 @@ export function Transcription({
   const [replacement, setReplacement] = useState("");
   const [page, setPage] = useState(Math.floor((initialSegment ?? 0) / 100));
   const [active, setActive] = useState(initialSegment ?? -1);
-  const chosen = models.find((m) => m.id === modelId) ?? models[0];
+  const chosen = pickAsrModel(models, modelId);
+  const hint = asrHint(chosen?.id);
   const modelReady =
     chosen?.state === "installed" &&
     chosen.devices.includes(device) &&
@@ -255,8 +257,12 @@ export function Transcription({
             {!models.length && <option value="">{t("installAsrModel")}</option>}
             {models.map((model) => (
               <option key={model.id} value={model.id}>
-                {model.name} ·{" "}
-                {t(model.state === "installed" ? "ready" : "unavailable")}
+                {model.name} · {formatModelSize(model.size)} ·{" "}
+                {t(
+                  model.state === "installed"
+                    ? "installedModels"
+                    : "modelNotInstalled",
+                )}
               </option>
             ))}
           </select>
@@ -288,6 +294,7 @@ export function Transcription({
           {t("transcribe")}
         </button>
       </div>
+      {hint && <p>{t(hint)}</p>}
       {!modelReady && <p>{t("installAsrModel")}</p>}
       <p>{t("languageCodeHint")}</p>
       {url && (
