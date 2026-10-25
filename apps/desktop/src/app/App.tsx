@@ -19,6 +19,7 @@ import { Speech } from "../features/speech/Speech";
 import { Transcription } from "../features/speech/Transcription";
 import { AudioLines, Plus, Search } from "lucide-react";
 import { Sidebar } from "../components/shell/Sidebar";
+import { ActivityIndicator } from "../components/shell/ActivityIndicator";
 import { Inspector } from "../components/shell/Inspector";
 import { CommandPalette } from "../components/shell/CommandPalette";
 import { Modal } from "../components/dialogs/Modal";
@@ -111,6 +112,11 @@ function AppContent() {
           {project && (
             <button onClick={closeProject}>{t("closeProject")}</button>
           )}
+          <ActivityIndicator
+            jobs={ready ? jobs : []}
+            t={t}
+            onOpen={() => navigate("jobs")}
+          />
           <Notifications ready={ready} t={t} onOpenJob={openJob} />
           <button disabled={!ready} onClick={() => setSearchOpen(true)}>
             {t("globalSearch")}
@@ -151,7 +157,8 @@ function AppContent() {
                   ● {t("desktopRequired")}
                 </div>
               ))}
-            <div className="workspace">
+            {/* Keyed by page so the entrance animation replays on navigation. */}
+            <div className="workspace" key={page}>
               <header className="page-heading">
                 <div>
                   <span className="eyebrow">

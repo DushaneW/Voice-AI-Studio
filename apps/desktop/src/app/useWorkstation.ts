@@ -44,6 +44,10 @@ export function useWorkstation() {
     media?.addEventListener("change", applyTheme);
     return () => media?.removeEventListener("change", applyTheme);
   }, [prefs.theme]);
+  useEffect(() => {
+    // "system" defers to prefers-reduced-motion in CSS; the others override it.
+    document.documentElement.dataset.motion = prefs.motion ?? "system";
+  }, [prefs.motion]);
   const [jobTarget, setJobTarget] = useState<string | null>(null);
   function openJob(id: string) {
     guard.confirm(() => {

@@ -102,6 +102,7 @@ class SettingsInput(BaseModel):
     )
     autosave_seconds: Literal[0, 5, 15, 30, 60] = 0
     theme: Literal["dark", "light", "system"] = "dark"
+    motion: Literal["system", "full", "reduced"] = "system"
     sidebar_collapsed: bool = False
     model_config = ConfigDict(extra="forbid")
     language: str = Field(pattern="^(en|pl)$")
@@ -504,6 +505,7 @@ def create_app(root: Path, token: str) -> FastAPI:
             "autosave_seconds": 0,
             "language": "en",
             "theme": "dark",
+            "motion": "system",
             "sidebar_collapsed": False,
             "inspector": True,
             "workspace": "home",

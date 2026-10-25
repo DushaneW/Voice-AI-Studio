@@ -615,4 +615,8 @@ export const en = {
   asrHintBase: "Fast with noticeably better accuracy than Tiny. Runs well on most CPUs.",
   asrHintSmall: "Balanced accuracy and speed. Recommended for Polish and other non-English speech.",
   asrHintMedium: "Most accurate in the catalog. Slow on CPU; a CUDA GPU is recommended.",
+  motion: "Animations",
+  motionSystem: "Follow system setting",
+  motionFull: "Full",
+  motionReduced: "Reduced",
 } as const;

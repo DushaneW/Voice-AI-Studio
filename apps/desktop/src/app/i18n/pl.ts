@@ -625,4 +625,8 @@ export const pl: Record<Key, string> = {
     "Równowaga dokładności i szybkości. Zalecany dla języka polskiego i innych języków.",
   asrHintMedium:
     "Najdokładniejszy w katalogu. Wolny na CPU; zalecana karta graficzna z CUDA.",
+  motion: "Animacje",
+  motionSystem: "Zgodnie z ustawieniem systemu",
+  motionFull: "Pełne",
+  motionReduced: "Ograniczone",
 };

@@ -44,6 +44,22 @@ export function Settings({
         </select>
       </label>
       <label>
+        {t("motion")}
+        <select
+          value={value.motion ?? "system"}
+          onChange={(e) =>
+            onChange({
+              ...value,
+              motion: e.target.value as "system" | "full" | "reduced",
+            })
+          }
+        >
+          <option value="system">{t("motionSystem")}</option>
+          <option value="full">{t("motionFull")}</option>
+          <option value="reduced">{t("motionReduced")}</option>
+        </select>
+      </label>
+      <label>
         {t("showInspector")}
         <input
           type="checkbox"

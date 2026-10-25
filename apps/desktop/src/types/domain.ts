@@ -171,6 +171,7 @@ export interface Settings {
   recent_project_ids?: string[];
   autosave_seconds?: 0 | 5 | 15 | 30 | 60;
   theme?: "dark" | "light" | "system";
+  motion?: "system" | "full" | "reduced";
   sidebar_collapsed?: boolean;
   language: "en" | "pl";
   workspace: Workspace;

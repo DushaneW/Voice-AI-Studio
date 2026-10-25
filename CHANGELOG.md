@@ -8,6 +8,12 @@
 - Transcription and settings model pickers show download size, install state and a
   speed/accuracy hint. Without a saved preference the first installed Whisper model
   is selected instead of the first catalog entry.
+- Interface motion (`styles/motion.css`): page transitions, staggered cards, dialog
+  and toast entrances, control feedback, progress sheen and a breathing runtime dot.
+- Settings: "Animations" preference (follow system / full / reduced), stored by the
+  runtime as `motion`. "Follow system" keeps honouring `prefers-reduced-motion`.
+- Titlebar activity indicator: animated while jobs run, shows active job count and
+  mean progress, opens the Jobs page.
 
 ### Changed
 - `scripts/verify_ai.py` installs only the models it exercises (Kokoro, Whisper Tiny).

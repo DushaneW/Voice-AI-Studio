@@ -1,0 +1,266 @@
+/* Motion layer. Loaded after app.css; every rule here is decoration only and is
+   switched off by the reduced-motion block at the end of this file. */
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --motion-fast: 120ms;
+  --motion-base: 220ms;
+  --motion-slow: 420ms;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+}
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes equalizer {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Page transitions: .workspace is keyed by page, so this replays on navigation. */
+.workspace > * {
+  animation: rise-in var(--motion-slow) var(--ease-out) both;
+}
+.workspace > :nth-child(2) {
+  animation-delay: 40ms;
+}
+.workspace > :nth-child(3) {
+  animation-delay: 80ms;
+}
+.workspace > :nth-child(n + 4) {
+  animation-delay: 120ms;
+}
+
+/* Cards appear in a short stagger instead of all at once. */
+.project-grid > *,
+.model-card,
+.workflow-template,
+.diagnostic-grid > * {
+  animation: rise-in var(--motion-slow) var(--ease-out) both;
+}
+.project-grid > :nth-child(2),
+.diagnostic-grid > :nth-child(2) {
+  animation-delay: 30ms;
+}
+.project-grid > :nth-child(3),
+.diagnostic-grid > :nth-child(3) {
+  animation-delay: 60ms;
+}
+.project-grid > :nth-child(4),
+.diagnostic-grid > :nth-child(4) {
+  animation-delay: 90ms;
+}
+.project-grid > :nth-child(n + 5),
+.diagnostic-grid > :nth-child(n + 5) {
+  animation-delay: 120ms;
+}
+.panel,
+.model-card,
+.workflow-template {
+  transition:
+    border-color var(--motion-base) var(--ease-out),
+    transform var(--motion-base) var(--ease-out),
+    box-shadow var(--motion-base) var(--ease-out);
+}
+.project-grid .panel:hover,
+.workflow-template:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px -10px var(--overlay);
+}
+
+/* Controls */
+button,
+input,
+select,
+textarea {
+  transition:
+    background-color var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    color var(--motion-fast) ease,
+    transform var(--motion-fast) ease,
+    box-shadow var(--motion-base) var(--ease-out);
+}
+button:not(:disabled):active {
+  transform: scale(0.97);
+}
+.primary:not(:disabled):hover {
+  box-shadow: 0 4px 14px -6px var(--accent);
+}
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* Dialogs and toasts */
+dialog[open] {
+  animation: dialog-in var(--motion-base) var(--ease-out);
+}
+dialog[open]::backdrop {
+  animation: fade-in var(--motion-base) ease;
+}
+.toast {
+  animation: toast-in var(--motion-base) var(--ease-out);
+}
+
+/* Sidebar collapse */
+.sidebar {
+  transition:
+    width var(--motion-base) var(--ease-in-out),
+    padding var(--motion-base) var(--ease-in-out);
+}
+
+/* Status: the local runtime dot breathes while connected. */
+.local-dot {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+.runtime-banner {
+  animation: rise-in var(--motion-base) var(--ease-out);
+}
+
+/* Progress: a moving sheen while work is in flight. */
+.model-card progress,
+.workflow-run-progress progress {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--accent) 25%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Transcript: the segment under the playhead eases into its highlight. */
+.segment {
+  transition: background-color var(--motion-base) ease,
+    border-color var(--motion-base) ease;
+}
+.empty svg {
+  animation: float 3.2s var(--ease-in-out) infinite;
+}
+
+/* Titlebar activity indicator (components/shell/ActivityIndicator.tsx) */
+.activity {
+  position: relative;
+  animation: rise-in var(--motion-base) var(--ease-out);
+  font-variant-numeric: tabular-nums;
+}
+.activity-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.activity-bars i {
+  width: 3px;
+  height: 100%;
+  border-radius: 1px;
+  background: var(--accent);
+  transform-origin: bottom;
+  transform: scaleY(0.3);
+}
+.activity.is-running .activity-bars i {
+  animation: equalizer 0.9s var(--ease-in-out) infinite;
+}
+.activity.is-running .activity-bars i:nth-child(2) {
+  animation-delay: -0.6s;
+}
+.activity.is-running .activity-bars i:nth-child(3) {
+  animation-delay: -0.3s;
+}
+.activity.is-running .activity-bars i:nth-child(4) {
+  animation-delay: -0.75s;
+}
+.activity-meter {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: 3px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--border);
+  overflow: hidden;
+}
+.activity-meter span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform var(--motion-slow) var(--ease-out);
+}
+
+/* "system" follows the OS setting, "reduced" always disables, "full" never does. */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) *,
+  :root:not([data-motion="full"]) *::before,
+  :root:not([data-motion="full"]) *::after,
+  :root:not([data-motion="full"]) ::backdrop {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after,
+:root[data-motion="reduced"] ::backdrop {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}

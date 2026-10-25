@@ -732,15 +732,6 @@ textarea {
 .sidebar-caption button {
   padding: 5px;
 }
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-}
 
 .workflow-hub {
   display: grid;

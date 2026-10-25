@@ -136,3 +136,18 @@ def test_audio_defaults_persist_and_reject_invalid_capture_options(tmp_path):
     ):
         assert client.put("/v1/settings", json={**prefs, **invalid}).status_code == 422
         assert client.get("/v1/settings").json()["recording_gain"] == 0.6
+
+
+def test_motion_preference_persists_and_rejects_unknown_values(tmp_path):
+    from fastapi.testclient import TestClient
+    from nexus_runtime.api import create_app
+
+    headers = {"Authorization": "Bearer " + "a" * 64}
+    client = TestClient(create_app(tmp_path, "a" * 64), headers=headers)
+    assert client.get("/v1/settings").json()["motion"] == "system"
+    prefs = {"language": "en", "workspace": "settings", "motion": "reduced"}
+    assert client.put("/v1/settings", json=prefs).status_code == 200
+    reopened = TestClient(create_app(tmp_path, "a" * 64), headers=headers)
+    assert reopened.get("/v1/settings").json()["motion"] == "reduced"
+    invalid = {**prefs, "motion": "wild"}
+    assert client.put("/v1/settings", json=invalid).status_code == 422
